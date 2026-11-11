@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LifeLink — Emergency Blood Compatibility & Donor Toolkit</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#faf7f5;--surf:#fff;--ink:#1d1618;--mute:#6b5d61;--line:#eadfe0;--red:#c4122f;--red2:#8e0b21;--ok:#1b7f4b;--okbg:#e4f5ec;--warn:#a65a00;--warnbg:#fdf0dc;--bad:#b3261e;--badbg:#fbe5e3}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#150f11;--surf:#1f1619;--ink:#f6eef0;--mute:#b3a2a7;--line:#33252a;--red:#ff5169;--red2:#ff8a9a;--ok:#5fd596;--okbg:#12301f;--warn:#f0b35a;--warnbg:#33260f;--bad:#ff8a80;--badbg:#3a1714;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#150f11;--surf:#1f1619;--ink:#f6eef0;--mute:#b3a2a7;--line:#33252a;--red:#ff5169;--red2:#ff8a9a;--ok:#5fd596;--okbg:#12301f;--warn:#f0b35a;--warnbg:#33260f;--bad:#ff8a80;--badbg:#3a1714;color-scheme:dark}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 0}
+.logo{font-weight:800;font-size:20px;letter-spacing:-.02em;display:flex;gap:8px;align-items:center}
+.drop{width:22px;height:28px;background:var(--red);border-radius:50% 50% 50% 50%/62% 62% 38% 38%;transform:rotate(0)}
+nav a{color:var(--mute);text-decoration:none;margin-left:16px;font-size:14px}
+nav a:hover{color:var(--red)}
+.hero{padding:36px 0 28px}
+.hero h1{font-size:clamp(30px,6vw,52px);line-height:1.08;letter-spacing:-.03em;margin:0 0 14px;max-width:720px}
+.hero h1 em{font-style:normal;color:var(--red)}
+.hero p{color:var(--mute);max-width:620px;font-size:18px;margin:0 0 20px}
+.stats{display:flex;gap:12px;flex-wrap:wrap}
+.stat{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:12px 16px;font-size:14px;color:var(--mute)}
+.stat b{display:block;font-size:22px;color:var(--ink)}
+section{padding:28px 0}
+h2{font-size:26px;letter-spacing:-.02em;margin:0 0 6px}
+.sub{color:var(--mute);margin:0 0 18px}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:20px}
+.grid{display:grid;gap:16px;grid-template-columns:1fr 1fr}
+@media(max-width:720px){.grid{grid-template-columns:1fr}nav{display:none}}
+.seg{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:3px;margin-bottom:14px}
+.seg button{border:0;background:none;padding:8px 14px;border-radius:9px;font:inherit;font-size:14px;color:var(--mute);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--red);color:#fff}
+.bg8{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:16px}
+.bg8 button{padding:14px 0;border-radius:12px;border:1.5px solid var(--line);background:var(--surf);color:var(--ink);font:700 18px inherit;font-family:inherit;cursor:pointer}
+.bg8 button[aria-pressed="true"]{background:var(--red);color:#fff;border-color:var(--red)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{padding:8px 14px;border-radius:999px;font-weight:700;background:var(--okbg);color:var(--ok);font-size:15px}
+.chip.best{background:var(--ok);color:#fff}
+.chip.no{background:var(--badbg);color:var(--bad)}
+.note{font-size:13px;color:var(--mute);margin-top:12px}
+label{display:block;font-size:13px;font-weight:600;color:var(--mute);margin:12px 0 4px}
+input,select,textarea{width:100%;padding:11px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:inherit}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--red);outline-offset:1px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{background:var(--red);color:#fff;border:0;border-radius:12px;padding:12px 18px;font:700 15px inherit;font-family:inherit;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.alt{background:var(--bg);color:var(--ink);border:1.5px solid var(--line)}
+.btn:hover{filter:brightness(1.08)}
+.res{margin-top:14px;padding:14px;border-radius:12px;font-size:15px}
+.res.ok{background:var(--okbg);color:var(--ok)}.res.warn{background:var(--warnbg);color:var(--warn)}.res.bad{background:var(--badbg);color:var(--bad)}
+.res ul{margin:6px 0 0;padding-left:18px}
+pre{white-space:pre-wrap;background:var(--bg);border:1px dashed var(--line);border-radius:12px;padding:14px;font:14px/1.5 ui-monospace,Menlo,monospace;margin:14px 0 10px}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.donor{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}
+.donor:last-child{border:0}
+.tag{font-weight:800;color:var(--red);font-size:18px;min-width:44px}
+.pill{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.pill.e{background:var(--okbg);color:var(--ok)}.pill.w{background:var(--warnbg);color:var(--warn)}
+.x{background:none;border:0;color:var(--mute);cursor:pointer;font-size:18px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:420px;font-size:14px;text-align:center}
+th,td{padding:7px;border:1px solid var(--line)}
+td.y{background:var(--okbg);color:var(--ok);font-weight:700}
+footer{padding:30px 0 40px;color:var(--mute);font-size:13px;border-top:1px solid var(--line);margin-top:20px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:.25s;pointer-events:none}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="logo"><span class="drop" aria-hidden="true"></span>LifeLink</div>
+  <nav><a href="#match">Compatibility</a><a href="#eligible">Eligibility</a><a href="#request">Request</a><a href="#donors">Donors</a></nav>
+</header>
+
+<div class="hero">
+  <h1>When a family needs blood, <em>minutes decide</em> everything.</h1>
+  <p>Searching for donors by phone and guesswork wastes critical time, and wrong assumptions about compatibility cost lives. LifeLink gives families and volunteers instant, accurate tools to find compatible donors, check who can safely give, and broadcast a clear request.</p>
+  <div class="stats">
+    <div class="stat"><b>8</b>blood groups, 1 matrix</div>
+    <div class="stat"><b>O−</b>universal red-cell donor</div>
+    <div class="stat"><b>56 days</b>minimum gap between whole-blood donations</div>
+  </div>
+</div>
+
+<section id="match">
+  <h2>1. Compatibility finder</h2>
+  <p class="sub">Red blood cell compatibility, computed from ABO and Rh antigens.</p>
+  <div class="card">
+    <div class="seg" role="group" aria-label="Mode">
+      <button id="m1" aria-pressed="true">I need blood (patient)</button>
+      <button id="m2" aria-pressed="false">I can donate (donor)</button>
+    </div>
+    <div class="bg8" id="pick" role="group" aria-label="Blood group"></div>
+    <div id="out"></div>
+    <div class="note">Plasma and platelet compatibility differ from red cells. Hospitals always run a cross-match; use this to find candidates fast, not to replace testing.</div>
+  </div>
+  <details class="card" style="margin-top:14px"><summary style="cursor:pointer;font-weight:600">Full red-cell matrix</summary><div class="scroll" id="matrix" style="margin-top:12px"></div></details>
+</section>
+
+<section id="eligible">
+  <h2>2. Can I donate today?</h2>
+  <p class="sub">A quick screening against common whole-blood donation criteria.</p>
+  <div class="card">
+    <div class="row"><div><label for="age">Age</label><input id="age" type="number" min="1" max="99" placeholder="e.g. 28"></div>
+    <div><label for="wt">Weight (kg)</label><input id="wt" type="number" min="10" max="250" placeholder="e.g. 65"></div></div>
+    <div class="row"><div><label for="hb">Hemoglobin (g/dL, optional)</label><input id="hb" type="number" step="0.1" placeholder="e.g. 13.5"></div>
+    <div><label for="last">Last donation (optional)</label><input id="last" type="date"></div></div>
+    <label for="sym">Right now I have…</label>
+    <select id="sym"><option value="0">No fever, cold or illness; feeling well</option><option value="1">Fever, infection or feeling unwell</option></select>
+    <div style="margin-top:14px"><button class="btn" id="chk">Check eligibility</button></div>
+    <div id="eres"></div>
+    <div class="note">Rules vary by country and blood service. The blood bank’s own screening has the final say.</div>
+  </div>
+</section>
+
+<section id="request">
+  <h2>3. Emergency request card</h2>
+  <p class="sub">Generate a clear, shareable message that gets the right donors responding.</p>
+  <div class="grid">
+    <div class="card">
+      <div class="row"><div><label for="rg">Blood group needed</label><select id="rg"></select></div>
+      <div><label for="ru">Units</label><input id="ru" type="number" min="1" value="1"></div></div>
+      <label for="rp">Patient name</label><input id="rp" placeholder="Name or initials">
+      <label for="rh">Hospital & ward</label><input id="rh" placeholder="Hospital, city, ward">
+      <div class="row"><div><label for="rc">Contact number</label><input id="rc" type="tel" placeholder="+92 …"></div>
+      <div><label for="rw">Needed by</label><select id="rw"><option>immediately</option><option>within 6 hours</option><option>within 24 hours</option><option>scheduled surgery</option></select></div></div>
+    </div>
+    <div class="card">
+      <b>Your message</b>
+      <pre id="msg"></pre>
+      <div class="actions"><button class="btn" id="cp">Copy</button><a class="btn alt" id="wa" target="_blank" rel="noopener">Share on WhatsApp</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="donors">
+  <h2>4. Donor circle</h2>
+  <p class="sub">Keep a private list of friends, family and neighbours who’ve agreed to donate, with automatic recovery tracking.</p>
+  <div class="grid">
+    <div class="card">
+      <label for="dn">Name</label><input id="dn">
+      <div class="row"><div><label for="dg">Blood group</label><select id="dg"></select></div>
+      <div><label for="dp">Phone</label><input id="dp" type="tel"></div></div>
+      <label for="dl">Last donated (leave empty if never)</label><input id="dl" type="date">
+      <div style="margin-top:14px"><button class="btn" id="add">Add to circle</button></div>
+      <div class="note">Stored only in this browser on this device. Nothing is uploaded.</div>
+    </div>
+    <div class="card">
+      <label for="df" style="margin-top:0">Show donors who can help a patient with</label>
+      <select id="df"></select>
+      <div id="list" style="margin-top:8px"></div>
+    </div>
+  </div>
+</section>
+
+<footer>LifeLink is an informational tool, not medical advice. In an emergency contact the hospital blood bank or your local emergency number. Donor criteria and Rh/ABO rules follow widely published blood-service guidance; always defer to your national blood authority.</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const G=["O−","O+","A−","A+","B−","B+","AB−","AB+"];
+const ant=g=>({abo:g.replace(/[+−]/,""),rh:g.includes("+")});
+const abo=a=>a==="O"?[]:a==="AB"?["A","B"]:[a];
+// donor d can give red cells to recipient r
+const can=(d,r)=>{const D=ant(d),R=ant(r);return abo(D.abo).every(x=>abo(R.abo).includes(x))&&(!D.rh||R.rh)};
+const donorsFor=r=>G.filter(d=>can(d,r));
+const recipFor=d=>G.filter(r=>can(d,r));
+const $=id=>document.getElementById(id);
+const toast=t=>{const e=$("toast");e.textContent=t;e.classList.add("on");setTimeout(()=>e.classList.remove("on"),1800)};
+const store={get(){try{return JSON.parse(localStorage.getItem("ll_donors")||"[]")}catch(e){return []}},set(v){try{localStorage.setItem("ll_donors",JSON.stringify(v))}catch(e){toast("Storage unavailable")}}};
+
+let mode="p",sel="O−";
+function renderPick(){
+  $("pick").innerHTML=G.map(g=>`<button aria-pressed="${g===sel}" data-g="${g}">${g}</button>`).join("");
+  $("pick").querySelectorAll("button").forEach(b=>b.onclick=()=>{sel=b.dataset.g;renderPick();renderOut()});
+}
+function renderOut(){
+  let list,t;
+  if(mode==="p"){list=donorsFor(sel);t=`A patient with <b>${sel}</b> can receive red cells from:`;
+    const rank=[...list].sort((a,b)=>(b===sel)-(a===sel));
+    $("out").innerHTML=`<p>${t}</p><div class="chips">${rank.map(g=>`<span class="chip ${g===sel?"best":""}">${g}${g===sel?" · exact match":""}</span>`).join("")}</div><p class="note">Exact matches are preferred when available; others are safe alternatives.</p>`;
+  }else{
+    list=recipFor(sel);const no=G.filter(g=>!list.includes(g));
+    $("out").innerHTML=`<p>A donor with <b>${sel}</b> can give red cells to:</p><div class="chips">${list.map(g=>`<span class="chip">${g}</span>`).join("")}</div>${no.length?`<p style="margin-bottom:6px">Cannot give to:</p><div class="chips">${no.map(g=>`<span class="chip no">${g}</span>`).join("")}</div>`:""}`;
+  }
+}
+$("m1").onclick=()=>{mode="p";$("m1").setAttribute("aria-pressed",true);$("m2").setAttribute("aria-pressed",false);renderOut()};
+$("m2").onclick=()=>{mode="d";$("m2").setAttribute("aria-pressed",true);$("m1").setAttribute("aria-pressed",false);renderOut()};
+$("matrix").innerHTML=`<table><tr><th>Donor ↓ / Patient →</th>${G.map(g=>`<th>${g}</th>`).join("")}</tr>${G.map(d=>`<tr><th>${d}</th>${G.map(r=>can(d,r)?`<td class="y">✓</td>`:`<td>–</td>`).join("")}</tr>`).join("")}</table>`;
+renderPick();renderOut();
+
+// eligibility
+const DAY=864e5,GAP=56;
+$("chk").onclick=()=>{
+  const a=+$("age").value,w=+$("wt").value,h=+$("hb").value,l=$("last").value,bad=[],warn=[];
+  if(!a||!w){$("eres").innerHTML=`<div class="res warn">Please enter your age and weight.</div>`;return}
+  if(a<17)bad.push("Most blood services require donors to be at least 17 (some allow 16 with consent).");
+  if(a>65)warn.push("Many services cap first-time donors around 65; regular donors may continue. Ask your blood bank.");
+  if(w<50)bad.push("Minimum weight is generally 50 kg (110 lb).");
+  if(h&&h<12.5)bad.push("Hemoglobin below 12.5 g/dL is usually deferred. Iron-rich food and a doctor’s check can help.");
+  if($("sym").value==="1")bad.push("Postpone donation until you are fully recovered and symptom-free.");
+  if(l){const d=Math.floor((Date.now()-new Date(l))/DAY);if(d<GAP)bad.push(`Only ${d} days since last donation. Wait ${GAP-d} more days (minimum ${GAP}).`)}
+  let c="ok",head="You appear eligible to donate.";
+  if(bad.length){c="bad";head="Not eligible right now:"}else if(warn.length){c="warn";head="Possibly eligible, with a note:"}
+  $("eres").innerHTML=`<div class="res ${c}"><b>${head}</b>${bad.length||warn.length?`<ul>${[...bad,...warn].map(x=>`<li>${x}</li>`).join("")}</ul>`:`<ul><li>Eat well, drink water, and bring an ID.</li><li>Final screening is done at the blood bank.</li></ul>`}</div>`;
+};
+
+// request
+G.forEach(g=>{["rg","dg","df"].forEach(id=>{const o=document.createElement("option");o.value=o.textContent=g;$(id).appendChild(o)})});
+function buildMsg(){
+  const g=$("rg").value,c=donorsFor(g);
+  const m=`🆘 URGENT BLOOD NEEDED\nGroup: ${g}  |  Units: ${$("ru").value||1}\nPatient: ${$("rp").value||"—"}\nLocation: ${$("rh").value||"—"}\nNeeded: ${$("rw").value}\nContact: ${$("rc").value||"—"}\nCompatible donors: ${c.join(", ")}\nPlease share. Every minute counts. 🙏`;
+  $("msg").textContent=m;$("wa").href="https://wa.me/?text="+encodeURIComponent(m);return m;
+}
+["rg","ru","rp","rh","rc","rw"].forEach(id=>$(id).addEventListener("input",buildMsg));buildMsg();
+$("cp").onclick=async()=>{const m=buildMsg();try{await navigator.clipboard.writeText(m);toast("Copied")}catch(e){const r=document.createRange();r.selectNodeContents($("msg"));const s=getSelection();s.removeAllRanges();s.addRange(r);toast("Press copy on your keyboard")}};
+
+// donors
+const status=d=>{if(!d.last)return{ok:true,t:"Ready"};const n=Math.floor((Date.now()-new Date(d.last))/DAY);return n>=GAP?{ok:true,t:"Ready"}:{ok:false,t:`Ready in ${GAP-n}d`}};
+function renderList(){
+  const need=$("df").value,all=store.get();
+  const rows=all.map((d,i)=>({...d,i})).filter(d=>can(d.g,need)).sort((a,b)=>status(b).ok-status(a).ok||(b.g===need)-(a.g===need));
+  $("list").innerHTML=rows.length?rows.map(d=>{const s=status(d);const tel=d.p?`<a href="tel:${encodeURIComponent(d.p)}" style="color:var(--red)">${d.p.replace(/</g,"&lt;")}</a>`:"No phone";
+    return `<div class="donor"><span class="tag">${d.g}</span><div style="flex:1"><div><b></b></div><small style="color:var(--mute)">${tel}</small></div><span class="pill ${s.ok?"e":"w"}">${s.t}</span><button class="x" aria-label="Remove" data-i="${d.i}">×</button></div>`}).join(""):`<p class="note">No donors in your circle can help a ${need} patient yet. Add some above.</p>`;
+  $("list").querySelectorAll(".donor").forEach((el,k)=>el.querySelector("b").textContent=rows[k].n);
+  $("list").querySelectorAll(".x").forEach(b=>b.onclick=()=>{const a=store.get();a.splice(+b.dataset.i,1);store.set(a);renderList()});
+}
+$("df").onchange=renderList;
+$("add").onclick=()=>{const n=$("dn").value.trim();if(!n){toast("Enter a name");return}
+  const a=store.get();a.push({n,g:$("dg").value,p:$("dp").value.trim(),last:$("dl").value});store.set(a);
+  ["dn","dp","dl"].forEach(id=>$(id).value="");renderList();toast("Added")};
+renderList();
+</script>
+</body>
+</html>
